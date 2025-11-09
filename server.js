@@ -5,7 +5,7 @@ const QRCode = require("qrcode");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(__dirname));
 
 app.get("/qrcode", async (req, res) => {
   try {
@@ -13,7 +13,6 @@ app.get("/qrcode", async (req, res) => {
     const host = req.get("host");
     const protocol = req.protocol;
     const scanUrl = `${protocol}://${host}/scan?token=${token}`;
-
 
     const dataUrl = await QRCode.toDataURL(scanUrl, {
       errorCorrectionLevel: "H",
