@@ -3,16 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QR Code Generator</title>
-
-    <link rel="stylesheet" href="./decor.css" />
-    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <title>QR Generator with Timestamp Redirect</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #121212;
+        color: #f5f5f5;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+      #qrcode {
+        margin: 20px;
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+      }
+      #timer {
+        font-size: 1.2em;
+        color: #00ff99;
+      }
+      #link {
+        margin-top: 10px;
+        color: #00ccff;
+      }
+    </style>
   </head>
-
   <body>
-    <h1>Dynamic QR Code</h1>
-    <div id="qrcode"></div>
-    <div id="time"></div>
-    <script src="./qrgen.js"></script>
+    <h1>QR Code with Timestamp Redirect</h1>
+    <img id="qrcode" src="" alt="QR Code" width="200" height="200" />
+    <p>Next QR code in <span id="timer">30</span>s</p>
+    <p id="link"></p>
+
+    <script>
+      const qrcode = document.getElementById("qrcode");
+      const timer = document.getElementById("timer");
+      const linkDisplay = document.getElementById("link");
+      let countdown = 30;
+
+      function generateQRCode() {
+        const timestamp = Date.now();
+        const redirectUrl = `${location.origin}/redirect.html?t=${timestamp}`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+          redirectUrl
+        )}`;
+
+        qrcode.src = qrUrl;
+        linkDisplay.innerHTML = `<a href="${redirectUrl}" target="_blank">${redirectUrl}</a>`;
+        console.log(`Generated QR for: ${redirectUrl}`);
+      }
+
+      function startCountdown() {
+        setInterval(() => {
+          countdown--;
+          if (countdown <= 0) {
+            countdown = 30;
+            generateQRCode();
+          }
+          timer.textContent = countdown;
+        }, 1000);
+      }
+
+      // Initialize
+      generateQRCode();
+      startCountdown();
+    </script>
   </body>
 </html>
