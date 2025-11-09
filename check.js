@@ -18,7 +18,6 @@ app.get("/track", (req, res) => {
   );
 
   const now = Date.now();
-  // consider "within 30 seconds" as serverNow <= embeddedTs + 30000
   const within30s = !isNaN(ts) && now <= ts + 30000;
 
   const link1 = "https://google.com";
@@ -26,6 +25,18 @@ app.get("/track", (req, res) => {
 
   const redirectURL = within30s ? link1 : link2;
   res.redirect(redirectURL);
+});
+
+// New endpoint to generate QR code URL
+app.get("/generate-qr", (req, res) => {
+  const now = new Date();
+  const nowStr = now.toLocaleString();
+  const ts = now.getTime();
+  const url = `https://wuang-qr-code-gen.vercel.app/check.html?ts=${ts}&time=${encodeURIComponent(
+    nowStr
+  )}`;
+
+  res.json({ qrUrl: url });
 });
 
 app.listen(3000, () => {
