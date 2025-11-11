@@ -8,7 +8,7 @@ if (!t) {
   const now = Date.now();
   const age = (now - t) / 1000; // seconds
 
-  if (age <= 30) {
+  if (age <= 15) {
     status.textContent = "QR is fresh.";
     window.location.href =
       "https://docs.google.com/forms/d/e/1FAIpQLScQOd8sFCM4anzXSkG2lJQz37iIpAoO43L4A-kFwe0ULwulkg/viewform";
