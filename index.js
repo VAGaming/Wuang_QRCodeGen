@@ -1,7 +1,7 @@
 const qrcode = document.getElementById("qrcode");
 const timer = document.getElementById("timer");
 const linkDisplay = document.getElementById("link");
-let countdown = 30;
+let countdown = 15;
 
 function generateQRCode() {
   const timestamp = Date.now();
@@ -18,7 +18,7 @@ function startCountdown() {
   setInterval(() => {
     countdown--;
     if (countdown <= 0) {
-      countdown = 30;
+      countdown = 15;
       generateQRCode();
     }
     timer.textContent = countdown;
